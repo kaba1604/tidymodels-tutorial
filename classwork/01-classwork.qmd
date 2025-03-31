@@ -44,7 +44,15 @@ Try out different values in `set.seed()` to see how the results change.
 Hint: Which argument in `initial_split()` handles the proportion split into training vs testing?
 
 ```{r}
-# your code here!
+set.seed(123)
+ring_split <- initial_split(abalone, prop = 0.8)
+ring_train <- training(ring_split)
+ring_test <- testing(ring_split)
+
+nrow(ring_train)
+#> [1] 3341
+nrow(ring_test)
+#> [1] 836
 
 ```
 
@@ -59,7 +67,16 @@ Explore the `ring_train` data on your own!
 - How do rings differ across sex?
 
 ```{r}
-# your code here!
+ggplot(ring_train, aes(rings)) +
+  geom_histogram(bins = 15)
+
+ggplot(ring_train, aes(rings, sex, fill = sex)) +
+  geom_boxplot(alpha = 0.5, show.legend = FALSE)
+
+ring_train %>%
+  ggplot(aes(shucked_weight, rings, color = shell_weight)) +
+  geom_point(alpha = 0.5) +
+  scale_color_viridis_c()
 
 ```
 
@@ -70,6 +87,8 @@ set.seed(123)
 ring_split <- initial_split(abalone, prop = 0.8, strata = rings)
 ring_train <- training(ring_split)
 ring_test <- testing(ring_split)
+
+
 ```
 
 ## Your turn
